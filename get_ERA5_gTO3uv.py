@@ -3,12 +3,20 @@ import sys
 
 c = cdsapi.Client()
 
-year = str(sys.argv[1]) 
+year = str(sys.argv[1])
+
+if int(year) < 1979:
+    source = 'reanalysis-era5-pressure-levels-monthly-means-preliminary-back-extension'
+    producttype = 'reanalysis-monthly-means-of-daily-means'
+else:
+    source = 'reanalysis-era5-pressure-levels-monthly-means'
+    producttype = 'monthly_averaged_reanalysis'
+    
 c.retrieve(
-    'reanalysis-era5-pressure-levels-monthly-means-preliminary-back-extension',
+    source,
     {
         'format': 'netcdf',
-        'product_type': 'reanalysis-monthly-means-of-daily-means',
+        'product_type': producttype,
         'variable': [
             'geopotential', 'ozone_mass_mixing_ratio', 'temperature',
             'u_component_of_wind', 'v_component_of_wind',
